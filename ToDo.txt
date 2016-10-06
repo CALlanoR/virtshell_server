@@ -1,0 +1,35 @@
+Roadmap
+=======
++ Security:
+    - Authentication and Authorization in the requests
+    - Authorization in the virtual resources  
+
++ Database
+    - Scripts to deploy the mongodb in two or more servers
+    - Partition the database and abstract that in a layer
+        - That abstraction layer allows us to do dynamic routing, in other words to do routing based on the configuration of what items live on what hosts, 
+
++ Deploy
+    - Scripts to deploy two or more servers with one balancer
+    - Run tornado in nginx
+
++ Integrate
+    - Service to build images to virtualbox 
+
++ Hosts
+    - When a new host is added, automatically a new task should be create to install the provisioning_agent (and other agents) in the host.
+
++ Amazon
+    - Create a separated service to interact with amazon api
+
++ All modules
+    - Add unit tests and integration test with other services
+    - If the element in the database not exists return a correct status and message error
+    - Add logger to all modules
+
++ Intances
+    - Add iptables for the enviroments (limit the access between machines of the same partition)
+    - When a new instance is created it should be added in enviroments
+    - When a instance is deleted it should be deleted in the host too (physically).
+
++ Error Handling

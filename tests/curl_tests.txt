@@ -1,0 +1,129 @@
+############################################################################################
+
+# Get users
+curl -s http://localhost:80/users/virtshell | jq .
+curl -s http://localhost:80/users/ | jq .
+
+# Create a user
+curl -X POST http://127.0.0.1:80/users/ -d "{\"username\": \"virtshell\", \"type\": \"administrator\", \"login\": \"user@mail.com\", \"groups\": [{\"name\": \"web_development_team\"}, {\"name\": \"production\"}]}" -H "accept:application/json" | jq .
+
+# Delete a user
+curl -X DELETE http://127.0.0.1:80/users/virtshell  | jq .
+
+# Update a user
+curl -X PUT http://127.0.0.1:80/users/virtshell -d "{\"login\": \"user@gmail.com\"}" -H "accept:application/json" | jq .
+
+############################################################################################
+
+# Get groups
+curl -s http://localhost:80/groups/web_development_team | jq .
+curl -s http://localhost:80/groups/ | jq .
+
+# Create a group
+curl -X POST http://127.0.0.1:80/groups/ -d "{\"name\": \"web_development_team\", \"users\": [{\"user\": \"virtshell\"}, {\"user\": \"demouser\"}]}" -H "accept:application/json" | jq .
+
+# Delete a group
+curl -X DELETE http://127.0.0.1:80/groups/web_development_team  | jq .
+
+# Update a group
+curl -X PUT http://127.0.0.1:80/groups/web_development_team -d "{\"users\": [{\"user\": \"virtshell\"}]}" -H "accept:application/json" | jq .
+
+############################################################################################
+
+# Get provisioners
+curl -s http://localhost:80/provisioners/backend-services-provisioner | jq .
+curl -s http://localhost:80/provisioners/ | jq .
+
+# Create a provisioner
+curl -X POST http://127.0.0.1:80/provisioners/ -d "{\"name\": \"backend-services-provisioner\", \"description\": \"Installs-Configures a backend server\", \"version\": \"1.5.8\", \"repository\": \"https://github.com/janutechnology/VirtShell_Provisioners_Examples.git\", \"executor\": \"run1.sh\", \"tag\": \"backend\", \"depends\": []}" -H "accept:application/json" | jq .
+
+# Delete a provisioner
+curl -X DELETE http://127.0.0.1:80/provisioners/backend-services-provisioner  | jq .
+
+# Update a provisioner
+curl -X PUT http://127.0.0.1:80/provisioners/backend-services-provisioner -d "{\"depends\": [\"database_co\"]}" -H "accept:application/json" | jq .
+
+############################################################################################
+
+# Get Instances
+curl -s http://localhost:80/instances/transactional_log | jq .
+curl -s http://localhost:80/instances/c2380fd6-ad13-4cf8-bf8e-5feeaaf74f3e | jq .
+curl -s http://localhost:80/instances/ | jq .
+
+# Create an Instance
+curl -X POST http://127.0.0.1:80/instances/ -d "{\"name\": \"transactional_log\", \"memory\": 1024, \"cpus\": 2, \"hdsize\": \"2GB\", \"description\": \"Server transactional only for store logs\", \"enviroment\": \"bigdata_test_01\", \"operating_system\": \"ubuntu_server_14.04.2_amd64\", \"provisioner\": \"all_backend\", \"host_type\": \"GeneralPurpose\", \"driver\": \"docker\"}" -H "accept:application/json" | jq .
+
+# Delete an Instance
+curl -X DELETE http://127.0.0.1:80/instances/transactional_log  | jq .
+
+# Update an Instance
+curl -X PUT http://127.0.0.1:80/instances/transactional_log -d "{\"ipv4\": \"172.17.0.2\"}" -H "accept:application/json" | jq .
+
+############################################################################################
+
+# Get Enviroments
+curl -s http://localhost:80/enviroments/bigdata_test_01 | jq .
+curl -s http://localhost:80/enviroments/ | jq .
+
+# Create an Enviroment
+curl -X POST http://127.0.0.1:80/enviroments/ -d "{\"name\":\"development\",\"description\":\"Collection of servers for development.\", \"partition\": \"development_co\", \"users\":[{\"login\":\"development_user\"},{\"login\":\"guest\"}]}" -H "accept:application/json" | jq .
+
+# Delete an Instance
+curl -X DELETE http://127.0.0.1:80/enviroments/bigdata_test_01  | jq .
+
+############################################################################################
+
+# Get Partitions
+curl -s http://localhost:80/partitions/development_co | jq .
+curl -s http://localhost:80/partitions/ | jq .
+
+# Create a Partition
+curl -X POST http://127.0.0.1:80/partitions/ -d "{\"name\":\"development_co\",\"description\":\"Collection of servers oriented to development team in Colombia.\"}" -H "accept:application/json" | jq .
+
+curl -X POST http://127.0.0.1:80/partitions/ -d "{\"name\":\"develotment_pe\",\"description\":\"Collection of servers oriented to development team in Mexico.\"}" -H "accept:application/json" | jq .
+
+# Update an Partition
+curl -X PUT http://127.0.0.1:80/partitions/development_mx -d "{\"description\":\"Collection of servers oriented to development team in Mexico DF.\"}" -H "accept:application/json" | jq .
+
+# Delete an Partition
+curl -X DELETE http://127.0.0.1:80/partitions/development_co  | jq .
+
+# Add a host
+curl -sv -X PUT http://127.0.0.1:80/partition/development_co/host/host-06-pdn | jq .
+
+############################################################################################
+
+# Get hosts
+curl -s http://localhost:80/hosts/host-05-pdn | jq .
+curl -s http://localhost:80/hosts/ | jq .
+
+# Create a host
+curl -X POST http://127.0.0.1:80/hosts/ -d "{\"name\": \"host-01\", \"os\": \"ubuntu-14.04.4-server-amd64\", \"memory\": \"2GB\", \"partition\":\"development_co\", \"type\": \"GeneralPurpose\"}" -H "accept:application/json" | jq .
+
+# Delete a host
+curl -X DELETE http://127.0.0.1:80/hosts/host-12-pdn  | jq .
+
+# Update a host
+curl -X PUT http://127.0.0.1:80/hosts/host-05-pdn -d "{\"os\": \"Ubuntu_18.04_3.5.0-23.x86_64\", \"memory\": \"16GB\"}" -H "accept:application/json" | jq .
+
+############################################################################################
+
+# Get tasks
+curl -s http://localhost:80/tasks/status | jq .
+curl -s http://localhost:80/tasks/status/pending | jq .
+curl -s http://localhost:80/tasks/11ef00f7-d923-47f3-9d62-1a38caf33e62 | jq .
+curl -s http://localhost:80/tasks/ | jq .
+
+# Create a new tasks
+curl -X POST http://127.0.0.1:80/tasks/ -d "{\"description\": \"clone virtual machine database_01\", \"status\" : \"pending\"}" -H "accept:application/json" | jq .
+
+# Update a task
+curl -X PUT http://127.0.0.1:80/tasks/11ef00f7-d923-47f3-9d62-1a38caf33e62 -d "{\"log\": \"Feb 20 10:40:33 Janu dhclient: DHCPREQUEST of 192.168.0.14 on wlan0 to 192.168.0.1 port 67 Feb 20 10:40:33 Janu dhclient: DHCPACK of 192.168.0.14 from 192.168.0.1 Feb 20 10:40:33 Janu dhclient: bound to 192.168.0.14 -- renewal in 1525 seconds.\"}" -H "accept:application/json" | jq .
+
+# Delete a task
+curl -X DELETE http://127.0.0.1:80/tasks/cfca1a23-a34a-4ca4-9098-5e543fe06e06  | jq .
+
+############################################################################################
+
+# Get files
+curl -s http://localhost:80/files/ | jq .
